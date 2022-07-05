@@ -43,12 +43,10 @@ class SeriesController extends AbstractController
         return new RedirectResponse('/series');
     }
 
-    #[Route('/series/delete')]
-    public function deleteSeries(Request $request): Response
+    #[Route('/series/delete/{id}', name: 'app_delete_series', methods: ['DELETE'])]
+    public function deleteSeries(int $id): Response
     {
-        $id = $request->query->get('id');
-        $series = $this->entityManager->getPartialReference(Series::class, $id);
-        $this->seriesRepository->remove($series, true);
+        $this->seriesRepository->removeById($id);
 
         return new RedirectResponse('/series');
     }
