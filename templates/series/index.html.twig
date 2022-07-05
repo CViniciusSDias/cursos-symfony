@@ -3,7 +3,7 @@
 {% block title %}Listagem de séries{% endblock %}
 
 {% block body %}
-<a href="/series/create" class="btn btn-dark mb-3">Adicionar</a>
+<a href="{{ path('app_series_form') }}" class="btn btn-dark mb-3">Adicionar</a>
 
 <ul class="list-group">
     {% for series in seriesList %}
