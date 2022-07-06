@@ -21,13 +21,9 @@ class SeriesController extends AbstractController
     public function seriesList(Request $request): Response
     {
         $seriesList = $this->seriesRepository->findAll();
-        $session = $request->getSession();
-        $successMessage = $session->get('success');
-        $session->remove('success');
 
         return $this->render('series/index.html.twig', [
             'seriesList' => $seriesList,
-            'successMessage' => $successMessage,
         ]);
     }
 
@@ -42,8 +38,7 @@ class SeriesController extends AbstractController
     {
         $seriesName = $request->request->get('name');
         $series = new Series($seriesName);
-        $request->getSession()
-            ->set('success', "Série \"{$seriesName}\" adicionada com sucesso");
+        $this->addFlash('success', "Série \"{$seriesName}\" adicionada com sucesso");
 
         $this->seriesRepository->add($series, true);
         return new RedirectResponse('/series');
@@ -58,8 +53,7 @@ class SeriesController extends AbstractController
     public function deleteSeries(int $id, Request $request): Response
     {
         $this->seriesRepository->removeById($id);
-        $session = $request->getSession();
-        $session->set('success', 'Série removida com sucesso');
+        $this->addFlash('success', 'Série removida com sucesso');
 
         return new RedirectResponse('/series');
     }
@@ -74,7 +68,7 @@ class SeriesController extends AbstractController
     public function storeSeriesChanges(Series $series, Request $request): Response
     {
         $series->setName($request->request->get('name'));
-        $request->getSession()->set('success', "Série \"{$series->getName()}\" editada com sucesso");
+        $this->addFlash('success', "Série \"{$series->getName()}\" editada com sucesso");
         $this->entityManager->flush();
 
         return new RedirectResponse('/series');
