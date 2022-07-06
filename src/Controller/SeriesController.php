@@ -41,6 +41,8 @@ class SeriesController extends AbstractController
     {
         $seriesName = $request->request->get('name');
         $series = new Series($seriesName);
+        $request->getSession()
+            ->set('success', "Série \"{$seriesName}\" adicionada com sucesso");
 
         $this->seriesRepository->add($series, true);
         return new RedirectResponse('/series');
@@ -59,5 +61,11 @@ class SeriesController extends AbstractController
         $session->set('success', 'Série removida com sucesso');
 
         return new RedirectResponse('/series');
+    }
+
+    #[Route('/series/edit/{series}', name: 'app_edit_series_form', methods: ['GET'])]
+    public function editSeriesForm(Series $series): Response
+    {
+        return $this->render('series/form.html.twig', compact('series'));
     }
 }
