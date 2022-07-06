@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Series;
 use App\Repository\SeriesRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SeriesController extends AbstractController
 {
-    public function __construct(private SeriesRepository $seriesRepository)
+    public function __construct(private SeriesRepository $seriesRepository, private EntityManagerInterface $entityManager)
     {
     }
 
@@ -67,5 +68,15 @@ class SeriesController extends AbstractController
     public function editSeriesForm(Series $series): Response
     {
         return $this->render('series/form.html.twig', compact('series'));
+    }
+
+    #[Route('/series/edit/{series}', name: 'app_store_series_changes', methods: ['PATCH'])]
+    public function storeSeriesChanges(Series $series, Request $request): Response
+    {
+        $series->setName($request->request->get('name'));
+        $request->getSession()->set('success', "Série \"{$series->getName()}\" editada com sucesso");
+        $this->entityManager->flush();
+
+        return new RedirectResponse('/series');
     }
 }

@@ -3,9 +3,11 @@
 {% block title %}Listagem de séries{% endblock %}
 
 {% block body %}
+    {% if successMessage is not empty %}
     <div class="alert alert-success">
         {{ successMessage }}
     </div>
+    {% endif %}
 
     <a href="{{ path('app_series_form') }}" class="btn btn-dark mb-3">Adicionar</a>
 
