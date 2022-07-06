@@ -17,12 +17,16 @@ class SeriesController extends AbstractController
     }
 
     #[Route('/series', name: 'app_series', methods: ['GET'])]
-    public function seriesList(): Response
+    public function seriesList(Request $request): Response
     {
         $seriesList = $this->seriesRepository->findAll();
+        $session = $request->getSession();
+        $successMessage = $session->get('success');
+        $session->remove('success');
 
         return $this->render('series/index.html.twig', [
             'seriesList' => $seriesList,
+            'successMessage' => $successMessage,
         ]);
     }
 
@@ -48,9 +52,11 @@ class SeriesController extends AbstractController
         methods: ['DELETE'],
         requirements: ['id' => '[0-9]+']
     )]
-    public function deleteSeries(int $id): Response
+    public function deleteSeries(int $id, Request $request): Response
     {
         $this->seriesRepository->removeById($id);
+        $session = $request->getSession();
+        $session->set('success', 'Série removida com sucesso');
 
         return new RedirectResponse('/series');
     }

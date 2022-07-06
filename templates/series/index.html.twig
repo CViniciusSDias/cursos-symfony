@@ -3,6 +3,10 @@
 {% block title %}Listagem de séries{% endblock %}
 
 {% block body %}
+    <div class="alert alert-success">
+        {{ successMessage }}
+    </div>
+
     <a href="{{ path('app_series_form') }}" class="btn btn-dark mb-3">Adicionar</a>
 
     <ul class="list-group">
