@@ -15,7 +15,7 @@ class Series
 
     public function __construct(
         #[ORM\Column]
-        private string $name
+        private string $name = ''
     ) {
     }
 

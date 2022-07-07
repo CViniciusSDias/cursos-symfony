@@ -33,16 +33,21 @@ class SeriesController extends AbstractController
     #[Route('/series/create', name: 'app_series_form', methods: ['GET'])]
     public function addSeriesForm(): Response
     {
-        $seriesForm = $this->createForm(SeriesType::class, new Series(''));
+        $seriesForm = $this->createForm(SeriesType::class, new Series());
         return $this->renderForm('series/form.html.twig', compact('seriesForm'));
     }
 
     #[Route('/series/create', name: 'app_add_series', methods: ['POST'])]
     public function addSeries(Request $request): Response
     {
-        $seriesName = $request->request->get('name');
-        $series = new Series($seriesName);
-        $this->addFlash('success', "Série \"{$seriesName}\" adicionada com sucesso");
+        $series = new Series();
+        $this->createForm(SeriesType::class, $series)
+            ->handleRequest($request);
+
+        $this->addFlash(
+            'success',
+            "Série \"{$series->getName()}\" adicionada com sucesso"
+        );
 
         $this->seriesRepository->add($series, true);
         return new RedirectResponse('/series');
