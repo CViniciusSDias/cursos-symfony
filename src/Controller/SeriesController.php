@@ -41,8 +41,12 @@ class SeriesController extends AbstractController
     public function addSeries(Request $request): Response
     {
         $series = new Series();
-        $this->createForm(SeriesType::class, $series)
+        $seriesForm = $this->createForm(SeriesType::class, $series)
             ->handleRequest($request);
+
+        if (!$seriesForm->isValid()) {
+            return $this->renderForm('series/form.html.twig', compact('seriesForm'));
+        }
 
         $this->addFlash(
             'success',
