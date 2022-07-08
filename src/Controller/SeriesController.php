@@ -74,13 +74,20 @@ class SeriesController extends AbstractController
     #[Route('/series/edit/{series}', name: 'app_edit_series_form', methods: ['GET'])]
     public function editSeriesForm(Series $series): Response
     {
-        return $this->render('series/form.html.twig', compact('series'));
+        $seriesForm = $this->createForm(SeriesType::class, $series, ['is_edit' => true]);
+        return $this->renderForm('series/form.html.twig', compact('seriesForm', 'series'));
     }
 
     #[Route('/series/edit/{series}', name: 'app_store_series_changes', methods: ['PATCH'])]
     public function storeSeriesChanges(Series $series, Request $request): Response
     {
-        $series->setName($request->request->get('name'));
+        $seriesForm = $this->createForm(SeriesType::class, $series, ['is_edit' => true]);
+        $seriesForm->handleRequest($request);
+
+        if (!$seriesForm->isValid()) {
+            return $this->renderForm('series/form.html.twig', compact('seriesForm', 'series'));
+        }
+
         $this->addFlash('success', "Série \"{$series->getName()}\" editada com sucesso");
         $this->entityManager->flush();
 
