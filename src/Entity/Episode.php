@@ -6,6 +6,7 @@ use App\Repository\EpisodeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EpisodeRepository::class)]
+#[ORM\Cache]
 class Episode
 {
     #[ORM\Id]
