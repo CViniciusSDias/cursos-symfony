@@ -13,12 +13,15 @@ class Episode
     #[ORM\Column(type: 'integer')]
     private int $id;
 
-    #[ORM\Column(type: 'smallint')]
-    private int $number;
-
     #[ORM\ManyToOne(targetEntity: Season::class, inversedBy: 'episodes')]
     #[ORM\JoinColumn(nullable: false)]
     private Season $season;
+
+    public function __construct(
+        #[ORM\Column(type: 'smallint')]
+        private int $number
+    ) {
+    }
 
     public function getId(): ?int
     {

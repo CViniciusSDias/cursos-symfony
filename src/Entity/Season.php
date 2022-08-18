@@ -15,18 +15,22 @@ class Season
     #[ORM\Column(type: 'integer')]
     private int $id;
 
-    #[ORM\Column(type: 'smallint')]
-    private int $number;
-
-    #[ORM\OneToMany(mappedBy: 'season', targetEntity: Episode::class, orphanRemoval: true)]
+    #[ORM\OneToMany(
+        mappedBy: 'season',
+        targetEntity: Episode::class,
+        orphanRemoval: true,
+        cascade: ['persist']
+    )]
     private Collection $episodes;
 
     #[ORM\ManyToOne(targetEntity: Series::class, inversedBy: 'seasons')]
     #[ORM\JoinColumn(nullable: false)]
     private Series $series;
 
-    public function __construct()
-    {
+    public function __construct(
+        #[ORM\Column(type: 'smallint')]
+        private int $number
+    ) {
         $this->episodes = new ArrayCollection();
     }
 
