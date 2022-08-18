@@ -8,7 +8,9 @@
     <ul class="list-group">
         {% for series in seriesList %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{ series.name }}
+                <a href="{{ path('app_seasons', {series: series.id}) }}">
+                    {{ series.name }}
+                </a>
 
                 <div class="d-flex">
                     <a href="{{ path('app_edit_series_form', {series: series.id}) }}" class="btn btn-sm btn-primary me-2">

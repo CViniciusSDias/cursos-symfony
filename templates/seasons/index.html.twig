@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Temporadas da série "{{ series.name }}"
+{% endblock %}
+
+{% block body %}
+<ul class="list-group">
+    {% for season in seasons %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        Temporada {{ season.number }}
+        <span class="badge bg-secondary">{{ season.episodes|length }}</span>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
