@@ -61,6 +61,14 @@ class Season
         return $this->episodes;
     }
 
+    /**
+     * @return Collection<int, Episode>
+     */
+    public function getWatchedEpisodes(): Collection
+    {
+        return $this->episodes->filter(fn (Episode $episode) => $episode->isWatched());
+    }
+
     public function addEpisode(Episode $episode): self
     {
         if (!$this->episodes->contains($episode)) {
