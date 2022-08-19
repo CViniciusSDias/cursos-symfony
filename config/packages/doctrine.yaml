@@ -16,7 +16,7 @@ doctrine:
                 prefix: 'App\Entity'
                 alias: App
         second_level_cache:
-            enabled: true
+            enabled: false
             region_cache_driver:
                 type: pool
                 pool: cache.app

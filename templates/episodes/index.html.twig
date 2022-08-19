@@ -10,7 +10,9 @@
             {% for episode in episodes %}
                 <li class="list-group-item d-flex justify-content-between">
                     Episódio {{ episode.number }}
-                    <input type="checkbox" name="episodes[{{ episode.id }}]">
+                    <input type="checkbox"
+                           name="episodes[{{ episode.id }}]"
+                           {% if episode.watched %} checked {% endif %}>
                 </li>
             {% endfor %}
         </ul>
