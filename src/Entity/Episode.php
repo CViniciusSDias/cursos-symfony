@@ -18,6 +18,9 @@ class Episode
     #[ORM\JoinColumn(nullable: false)]
     private Season $season;
 
+    #[ORM\Column(type: 'boolean')]
+    private $watched;
+
     public function __construct(
         #[ORM\Column(type: 'smallint')]
         private int $number
@@ -49,6 +52,18 @@ class Episode
     public function setSeason(?Season $season): self
     {
         $this->season = $season;
+
+        return $this;
+    }
+
+    public function isWatched(): ?bool
+    {
+        return $this->watched;
+    }
+
+    public function setWatched(bool $watched): self
+    {
+        $this->watched = $watched;
 
         return $this;
     }

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Episódios da temporada {{ season.number }} da série {{ series.name }}
+{% endblock %}
+
+{% block body %}
+<ul class="list-group">
+    {% for episode in episodes %}
+        <li class="list-group-item">
+            Episódio {{ episode.number }}
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
