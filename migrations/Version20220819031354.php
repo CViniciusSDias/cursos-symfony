@@ -20,7 +20,7 @@ final class Version20220819031354 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE episode ADD COLUMN watched DEFAULT FALSE;');
+        $this->addSql('ALTER TABLE episode ADD COLUMN watched BOOLEAN DEFAULT FALSE;');
     }
 
     public function down(Schema $schema): void
