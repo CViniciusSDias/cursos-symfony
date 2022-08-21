@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cadastrar usuário{% endblock %}
+
+{% block body %}
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Senha'
+        }) }}
+
+        <button type="submit" class="btn btn-primary">Register</button>
+    {{ form_end(registrationForm) }}
+{% endblock %}
