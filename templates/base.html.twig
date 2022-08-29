@@ -16,10 +16,14 @@
     </head>
     <body>
         <div class="container">
+            {% if is_granted('ROLE_USER') %}
             <div class="container-fluid bg-light d-flex justify-content-between align-items-center p-3">
                 <a href="{{ path('app_series') }}">Home</a>
                 <a href="{{ path('app_logout') }}">Sair</a>
             </div>
+            {% elseif app.request.pathinfo != path('app_login') %}
+                <a href="{{ path('app_login') }}">Entrar</a>
+            {% endif %}
 
             <h1>{{ block('title') }}</h1>
 
