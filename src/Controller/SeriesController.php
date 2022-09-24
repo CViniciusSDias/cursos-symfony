@@ -15,11 +15,17 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SeriesController extends AbstractController
 {
-    public function __construct(private SeriesRepository $seriesRepository, private EntityManagerInterface $entityManager)
+    public function __construct(
+        private SeriesRepository $seriesRepository,
+        private EntityManagerInterface $entityManager,
+        private MailerInterface $mailer,
+    )
     {
     }
 
@@ -50,8 +56,17 @@ class SeriesController extends AbstractController
         if (!$seriesForm->isValid()) {
             return $this->renderForm('series/form.html.twig', compact('seriesForm'));
         }
+        $user = $this->getUser();
 
         $series = $this->seriesRepository->add($input);
+        $email = (new Email())
+            ->from('sistema@example.com')
+            ->to($user->getUserIdentifier())
+            ->subject('Nova série criada')
+            ->text("Série {$series->getName()} foi criada criada")
+            ->html('<h1>Série criada</h1><p>Série {$series->getName()} foi criada criada</p>');
+
+        $this->mailer->send($email);
 
         $this->addFlash(
             'success',
