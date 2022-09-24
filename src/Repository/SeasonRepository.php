@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Season;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,46 +22,16 @@ class SeasonRepository extends ServiceEntityRepository
         parent::__construct($registry, Season::class);
     }
 
-    public function add(Season $entity, bool $flush = false): void
+    public function addSeasonsQuantity(int $seasonsQuantity, int $seriesId): void
     {
-        $this->getEntityManager()->persist($entity);
+        $connection = $this->getEntityManager()->getConnection();
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
+        $seasonsParam = array_fill(0, $seasonsQuantity, "($seriesId, ?)");
+        $seasonsSql = 'INSERT INTO season (series_id, number) VALUES ' . implode(', ', $seasonsParam);
+        $stm = $connection->prepare($seasonsSql);
+        foreach (array_keys($seasonsParam) as $i) {
+            $stm->bindValue($i + 1, $i + 1, \PDO::PARAM_INT);
         }
+        $stm->executeQuery();
     }
-
-    public function remove(Season $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-//    /**
-//     * @return Season[] Returns an array of Season objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Season
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

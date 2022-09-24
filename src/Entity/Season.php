@@ -20,7 +20,6 @@ class Season
         mappedBy: 'season',
         targetEntity: Episode::class,
         orphanRemoval: true,
-        cascade: ['persist']
     )]
     #[ORM\Cache]
     private Collection $episodes;

@@ -51,21 +51,13 @@ class SeriesController extends AbstractController
             return $this->renderForm('series/form.html.twig', compact('seriesForm'));
         }
 
-        $series = new Series($input->seriesName);
-        for ($i = 1; $i <= $input->seasonsQuantity; $i++) {
-            $season = new Season($i);
-            for ($j = 1; $j <= $input->episodesPerSeason; $j++) {
-                $season->addEpisode(new Episode($j));
-            }
-            $series->addSeason($season);
-        }
+        $series = $this->seriesRepository->add($input);
 
         $this->addFlash(
             'success',
             "Série \"{$series->getName()}\" adicionada com sucesso"
         );
 
-        $this->seriesRepository->add($series, true);
         return new RedirectResponse('/series');
     }
 
