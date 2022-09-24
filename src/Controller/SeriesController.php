@@ -64,7 +64,7 @@ class SeriesController extends AbstractController
             ->to($user->getUserIdentifier())
             ->subject('Nova série criada')
             ->text("Série {$series->getName()} foi criada criada")
-            ->html('<h1>Série criada</h1><p>Série {$series->getName()} foi criada criada</p>');
+            ->html("<h1>Série criada</h1><p>Série \"{$series->getName()}\" foi criada</p>");
 
         $this->mailer->send($email);
 
