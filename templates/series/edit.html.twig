@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ series is defined ? 'Editar' : 'Nova' }} Série{% endblock %}
+
+{% block body %}
+    {{ form(seriesForm) }}
+{% endblock %}

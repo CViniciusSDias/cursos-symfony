@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\DTO\SeriesCreationInputDTO;
 use App\Entity\Series;
+use App\Form\SeriesEditType;
 use App\Form\SeriesType;
 use App\Message\SeriesWasCreated;
 use App\Message\SeriesWasDeleted;
@@ -105,19 +106,21 @@ class SeriesController extends AbstractController
     #[Route('/series/edit/{series}', name: 'app_edit_series_form', methods: ['GET'])]
     public function editSeriesForm(Series $series): Response
     {
-        $seriesForm = $this->createForm(SeriesType::class, $series, ['is_edit' => true]);
-        return $this->renderForm('series/form.html.twig', compact('seriesForm', 'series'));
+        $seriesForm = $this->createForm(SeriesEditType::class, $series);
+        return $this->renderForm('series/edit.html.twig', compact('seriesForm', 'series'));
     }
 
     #[Route('/series/edit/{series}', name: 'app_store_series_changes', methods: ['PATCH'])]
     public function storeSeriesChanges(Series $series, Request $request): Response
     {
-        $seriesForm = $this->createForm(SeriesType::class, $series, ['is_edit' => true]);
+        $seriesForm = $this->createForm(SeriesEditType::class, $series);
         $seriesForm->handleRequest($request);
 
         if (!$seriesForm->isValid()) {
             return $this->renderForm('series/form.html.twig', compact('seriesForm', 'series'));
         }
+
+        dd($seriesForm->get('coverImagePath')->getData());
 
         $this->addFlash('success', "Série \"{$series->getName()}\" editada com sucesso");
         $this->entityManager->flush();
