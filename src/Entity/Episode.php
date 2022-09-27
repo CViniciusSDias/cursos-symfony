@@ -18,7 +18,7 @@ class Episode
     #[ORM\JoinColumn(nullable: false)]
     private Season $season;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private $watched;
 
     public function __construct(

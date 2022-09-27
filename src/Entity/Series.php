@@ -27,7 +27,7 @@ class Series
     public function __construct(
         #[ORM\Column]
         private string $name,
-        #[ORM\Column]
+        #[ORM\Column(nullable: true)]
         private ?string $coverImagePath = null,
     ) {
         $this->seasons = new ArrayCollection();
