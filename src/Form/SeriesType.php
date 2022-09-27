@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\DTO\SeriesCreationInputDTO;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,6 +19,7 @@ class SeriesType extends AbstractType
             ->add('seasonsQuantity', NumberType::class, options: ['label' => 'Qtd Temporadas:'])
             ->add('episodesPerSeason', NumberType::class, options: ['label' => 'Ep por Temporada:'])
             ->add('save', SubmitType::class, ['label' => $options['is_edit'] ? 'Editar' : 'Adicionar'])
+            ->add('coverImage', FileType::class, ['label' => 'Imagem de capa'])
             ->setMethod($options['is_edit'] ? 'PATCH' : 'POST')
         ;
     }

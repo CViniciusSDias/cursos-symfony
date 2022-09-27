@@ -14,6 +14,8 @@ class SeriesCreationInputDTO
         public int $seasonsQuantity = 0,
         #[Assert\Positive]
         public int $episodesPerSeason = 0,
+        #[Assert\File]
+        public string $coverImage = '',
     ) {
     }
 }
