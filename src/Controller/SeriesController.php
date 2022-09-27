@@ -53,6 +53,10 @@ class SeriesController extends AbstractController
         $seriesForm = $this->createForm(SeriesType::class, $input)
             ->handleRequest($request);
 
+        if (!$seriesForm->isValid()) {
+            return $this->renderForm('series/form.html.twig', compact('seriesForm'));
+        }
+
         /** @var UploadedFile $uploadedCoverImage */
         $uploadedCoverImage = $seriesForm->get('coverImage')->getData();
 
@@ -70,10 +74,6 @@ class SeriesController extends AbstractController
                 $newFilename
             );
             $input->coverImage = $newFilename;
-        }
-
-        if (!$seriesForm->isValid()) {
-            return $this->renderForm('series/form.html.twig', compact('seriesForm'));
         }
 
         $series = $this->seriesRepository->add($input);
