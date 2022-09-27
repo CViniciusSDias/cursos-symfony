@@ -6,6 +6,7 @@ use App\DTO\SeriesCreationInputDTO;
 use App\Entity\Series;
 use App\Form\SeriesType;
 use App\Message\SeriesWasCreated;
+use App\Message\SeriesWasDeleted;
 use App\Repository\SeriesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -88,14 +89,14 @@ class SeriesController extends AbstractController
     }
 
     #[Route(
-        '/series/delete/{id}',
+        '/series/delete/{series}',
         name: 'app_delete_series',
         methods: ['DELETE'],
-        requirements: ['id' => '[0-9]+']
     )]
-    public function deleteSeries(int $id, Request $request): Response
+    public function deleteSeries(Series $series): Response
     {
-        $this->seriesRepository->removeById($id);
+        $this->seriesRepository->remove($series, true);
+        $this->messenger->dispatch(new SeriesWasDeleted($series));
         $this->addFlash('success', 'Série removida com sucesso');
 
         return new RedirectResponse('/series');
