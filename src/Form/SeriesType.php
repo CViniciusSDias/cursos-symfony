@@ -19,7 +19,7 @@ class SeriesType extends AbstractType
             ->add('seasonsQuantity', NumberType::class, options: ['label' => 'Qtd Temporadas:'])
             ->add('episodesPerSeason', NumberType::class, options: ['label' => 'Ep por Temporada:'])
             ->add('save', SubmitType::class, ['label' => $options['is_edit'] ? 'Editar' : 'Adicionar'])
-            ->add('coverImage', FileType::class, ['label' => 'Imagem de capa'])
+            ->add('coverImage', FileType::class, ['label' => 'Imagem de capa', 'mapped' => false])
             ->setMethod($options['is_edit'] ? 'PATCH' : 'POST')
         ;
     }

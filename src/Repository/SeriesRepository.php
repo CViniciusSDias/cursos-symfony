@@ -34,7 +34,7 @@ class SeriesRepository extends ServiceEntityRepository
     {
         $entityManager = $this->getEntityManager();
 
-        $series = new Series($input->seriesName);
+        $series = new Series($input->seriesName, $input->coverImage);
         $entityManager->persist($series);
         $entityManager->flush();
 
