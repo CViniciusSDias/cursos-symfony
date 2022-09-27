@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\DTO\SeriesCreateFromInput;
+use App\DTO\SeriesCreationInputDTO;
 use App\Entity\Episode;
 use App\Entity\Season;
 use App\Entity\Series;
@@ -30,7 +30,7 @@ class SeriesRepository extends ServiceEntityRepository
         parent::__construct($registry, Series::class);
     }
 
-    public function add(SeriesCreateFromInput $input): Series
+    public function add(SeriesCreationInputDTO $input): Series
     {
         $entityManager = $this->getEntityManager();
 

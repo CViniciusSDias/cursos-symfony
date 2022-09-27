@@ -6,7 +6,6 @@ use App\Repository\SeriesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SeriesRepository::class)]
 #[ORM\Cache]
@@ -27,8 +26,6 @@ class Series
 
     public function __construct(
         #[ORM\Column]
-        #[Assert\NotBlank]
-        #[Assert\Length(min: 5)]
         private string $name = ''
     ) {
         $this->seasons = new ArrayCollection();

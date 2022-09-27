@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\DTO\SeriesCreateFromInput;
+use App\DTO\SeriesCreationInputDTO;
 use App\Entity\Series;
 use App\Form\SeriesType;
 use App\Message\SeriesWasCreated;
@@ -38,14 +38,14 @@ class SeriesController extends AbstractController
     #[Route('/series/create', name: 'app_series_form', methods: ['GET'])]
     public function addSeriesForm(): Response
     {
-        $seriesForm = $this->createForm(SeriesType::class, new SeriesCreateFromInput());
+        $seriesForm = $this->createForm(SeriesType::class, new SeriesCreationInputDTO());
         return $this->renderForm('series/form.html.twig', compact('seriesForm'));
     }
 
     #[Route('/series/create', name: 'app_add_series', methods: ['POST'])]
     public function addSeries(Request $request): Response
     {
-        $input = new SeriesCreateFromInput();
+        $input = new SeriesCreationInputDTO();
         $seriesForm = $this->createForm(SeriesType::class, $input)
             ->handleRequest($request);
 

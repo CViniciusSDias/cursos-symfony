@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\DTO\SeriesCreateFromInput;
+use App\DTO\SeriesCreationInputDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -25,7 +25,7 @@ class SeriesType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => SeriesCreateFromInput::class,
+            'data_class' => SeriesCreationInputDTO::class,
             'is_edit' => false,
         ]);
 
