@@ -7,19 +7,30 @@ namespace App\EventListener;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 #[AsEventListener()]
 class ExceptionEventListener
 {
-    public function __invoke(ExceptionEvent $event)
+    public function __invoke(ExceptionEvent $event): void
     {
-        // enviar minha exceção para New Relic
-        $errorMessage = $event->getThrowable()->getMessage();
+        $error = $event->getThrowable();
+        if (!$error instanceof NotFoundHttpException) {
+            return;
+        }
 
-        $response = new Response();
-        $response->setContent($errorMessage);
-        $response->setStatusCode(501);
+        $request = $event->getRequest();
+        $acceptLanguageHeader = $request->headers->get('Accept-Language');
+        $languages = explode(',', $acceptLanguageHeader);
+        $language = str_replace('-', '_', explode(';', $languages[0])[0]);
 
-        $event->setResponse($response);
+        if (!str_starts_with($request->getPathInfo(), "/$language")) {
+            $response = new Response(status: 302);
+            $response
+                ->headers
+                ->add(['Location' => "/$language" . $request->getPathInfo()]);
+
+            $event->setResponse($response);
+        }
     }
 }
