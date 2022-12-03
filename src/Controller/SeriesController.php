@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SeriesController extends AbstractController
 {
@@ -26,6 +27,7 @@ class SeriesController extends AbstractController
         private EntityManagerInterface $entityManager,
         private MessageBusInterface $messenger,
         private SluggerInterface $slugger,
+        private TranslatorInterface $translator,
     )
     {
     }
@@ -97,9 +99,9 @@ class SeriesController extends AbstractController
     {
         $this->seriesRepository->remove($series, true);
         $this->messenger->dispatch(new SeriesWasDeleted($series));
-        $this->addFlash('success', 'Série removida com sucesso');
+        $this->addFlash('success', $this->translator->trans('series.delete'));
 
-        return new RedirectResponse('/series');
+        return new RedirectResponse('/en/series');
     }
 
     #[Route('/series/edit/{series}', name: 'app_edit_series_form', methods: ['GET'])]
