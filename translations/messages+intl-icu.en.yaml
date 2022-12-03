@@ -1,0 +1,4 @@
+add: Add
+series.list: Series list
+series.delete: Series deleted successfully
+series.added.msg: Series {name} added successfully

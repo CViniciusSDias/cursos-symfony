@@ -84,7 +84,7 @@ class SeriesController extends AbstractController
 
         $this->addFlash(
             'success',
-            "Série \"{$series->getName()}\" adicionada com sucesso"
+            $this->translator->trans('series.added.msg', ['name' => $series->getName()])
         );
 
         return $this->redirectToRoute('app_series');

@@ -2,6 +2,8 @@ controllers:
     resource: ../src/Controller/
     type: attribute
     prefix: /{_locale}
+    requirements:
+        _locale: en|pt_BR
 
 app_logout:
     path: /logout

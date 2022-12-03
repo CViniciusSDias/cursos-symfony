@@ -4,7 +4,7 @@
 
 {% block body %}
     {% if is_granted('ROLE_USER') %}
-    <a href="{{ path('app_series_form') }}" class="btn btn-dark mb-3">Adicionar</a>
+    <a href="{{ path('app_series_form') }}" class="btn btn-dark mb-3">{% trans %}add{% endtrans %}</a>
     {% endif %}
 
     <ul class="list-group">
