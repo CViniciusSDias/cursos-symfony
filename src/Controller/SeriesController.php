@@ -36,6 +36,7 @@ class SeriesController extends AbstractController
     public function seriesList(Request $request): Response
     {
         $seriesList = $this->seriesRepository->findAll();
+        dump($seriesList);
 
         return $this->render('series/index.html.twig', [
             'seriesList' => $seriesList,
