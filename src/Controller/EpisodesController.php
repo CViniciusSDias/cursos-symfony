@@ -22,6 +22,7 @@ class EpisodesController extends AbstractController
     #[Route('/season/{season}/episodes', name: 'app_episodes', methods: ['GET'])]
     public function index(Season $season): Response
     {
+        $this->logger->warning('Teste de fingers crossed');
         return $this->render('episodes/index.html.twig', [
             'season' => $season,
             'series' => $season->getSeries(),
