@@ -10,7 +10,7 @@ class AddButtonTest extends WebTestCase
     public function testAddButtonDoesNotExistWhenUserIsNotLoggedIn(): void
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/series');
+        $crawler = $client->request('GET', '/pt_BR/series');
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorNotExists('.btn.btn-dark.mb-3');
@@ -23,7 +23,7 @@ class AddButtonTest extends WebTestCase
         $userRepository = $container->get(UserRepository::class);
         $user = $userRepository->findOneBy(['email' => 'email@example.com']);
         $client->loginUser($user);
-        $crawler = $client->request('GET', '/series');
+        $crawler = $client->request('GET', '/pt_BR/series');
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorExists('.btn.btn-dark.mb-3');
