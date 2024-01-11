@@ -28,6 +28,7 @@ class SeriesController extends AbstractController
         private MessageBusInterface $messenger,
         private SluggerInterface $slugger,
         private TranslatorInterface $translator,
+        private CacheInterface $cache
     )
     {
     }
