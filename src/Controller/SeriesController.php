@@ -10,9 +10,7 @@ use App\Message\SeriesWasDeleted;
 use App\Repository\SeriesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -27,8 +25,7 @@ class SeriesController extends AbstractController
         private EntityManagerInterface $entityManager,
         private MessageBusInterface $messenger,
         private SluggerInterface $slugger,
-        private TranslatorInterface $translator,
-        private CacheInterface $cache
+        private TranslatorInterface $translator
     )
     {
     }
@@ -47,7 +44,7 @@ class SeriesController extends AbstractController
     public function addSeriesForm(): Response
     {
         $seriesForm = $this->createForm(SeriesType::class, new SeriesCreationInputDTO());
-        return $this->renderForm('series/form.html.twig', compact('seriesForm'));
+        return $this->render('series/form.html.twig', compact('seriesForm'));
     }
 
     #[Route('/series/create', name: 'app_add_series', methods: ['POST'])]
@@ -58,7 +55,7 @@ class SeriesController extends AbstractController
             ->handleRequest($request);
 
         if (!$seriesForm->isValid()) {
-            return $this->renderForm('series/form.html.twig', compact('seriesForm'));
+            return $this->render('series/form.html.twig', compact('seriesForm'));
         }
 
         /** @var UploadedFile $uploadedCoverImage */
@@ -109,7 +106,7 @@ class SeriesController extends AbstractController
     public function editSeriesForm(Series $series): Response
     {
         $seriesForm = $this->createForm(SeriesType::class, $series, ['is_edit' => true]);
-        return $this->renderForm('series/form.html.twig', compact('seriesForm', 'series'));
+        return $this->render('series/form.html.twig', compact('seriesForm', 'series'));
     }
 
     #[Route('/series/edit/{series}', name: 'app_store_series_changes', methods: ['PATCH'])]
@@ -119,7 +116,7 @@ class SeriesController extends AbstractController
         $seriesForm->handleRequest($request);
 
         if (!$seriesForm->isValid()) {
-            return $this->renderForm('series/form.html.twig', compact('seriesForm', 'series'));
+            return $this->render('series/form.html.twig', compact('seriesForm', 'series'));
         }
 
         $this->addFlash('success', "Série \"{$series->getName()}\" editada com sucesso");

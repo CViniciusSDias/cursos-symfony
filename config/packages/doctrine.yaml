@@ -20,6 +20,10 @@ doctrine:
             region_cache_driver:
                 type: pool
                 pool: cache.app
+        report_fields_where_declared: true
+        enable_lazy_ghost_objects: true
+        controller_resolver:
+            auto_mapping: false
 
 when@test:
     doctrine:
