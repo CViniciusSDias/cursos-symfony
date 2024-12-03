@@ -1,4 +1,4 @@
-.PHONY: init start up stop build bash consume m_stats
+.PHONY: init start up stop build bash consume m_stats init_tests test
 
 init: start
 	docker compose exec app php bin/console doctrine:fixtures:load --no-interaction
@@ -26,3 +26,10 @@ consume:
 
 m_stats:
 	docker compose exec app php bin/console messenger:stats
+
+init_tests:
+	docker compose exec app php bin/console doctrine:migrations:migrate --no-interaction --env=test
+	docker compose exec app php bin/console doctrine:fixtures:load --no-interaction --env=test
+
+test:
+	docker compose exec app php bin/phpunit
