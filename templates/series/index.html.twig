@@ -24,9 +24,9 @@
 
                 {% if is_granted('ROLE_USER') %}
                 <div class="d-flex">
-                    <a href="{{ path('app_edit_series_form', {series: series.id}) }}" class="btn btn-sm btn-primary me-2">
+                    {# <a href="{{ path('app_edit_series_form', {series: series.id}) }}" class="btn btn-sm btn-primary me-2">
                         E
-                    </a>
+                    </a> #}
                     <form method="post" action="{{ path('app_delete_series', {series: series.id}) }}">
                         <input type="hidden" name="_method" value="DELETE">
 

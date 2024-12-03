@@ -1,9 +1,11 @@
-.PHONY: start up stop build bash consume
+.PHONY: init start up stop build bash consume m_stats
+
+init: start
+	docker compose exec app php bin/console doctrine:fixtures:load --no-interaction
 
 start: up
-	docker compose exec app composer update
+	docker compose exec app composer install
 	docker compose exec app php bin/console doctrine:migrations:migrate --no-interaction
-	docker compose exec app php bin/console doctrine:fixtures:load
 
 up:
 	docker compose up -d
@@ -19,3 +21,6 @@ bash:
 
 consume:
 	docker compose exec app php bin/console messenger:consume async -vv
+
+m_stats:
+	docker compose exec app php bin/console messenger:stats
