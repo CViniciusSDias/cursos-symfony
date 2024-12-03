@@ -2,6 +2,8 @@
 
 init: start
 	docker compose exec app php bin/console doctrine:fixtures:load --no-interaction
+	docker run --rm -itv $(CURDIR):/app -w /app node:22 npm install
+	docker run --rm -itv $(CURDIR):/app -w /app node:22 npm run build
 
 start: up
 	docker compose exec app composer install

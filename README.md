@@ -19,6 +19,9 @@ docker compose up -d
 docker compose exec app composer update
 docker compose exec app php bin/console doctrine:migrations:migrate --no-interaction
 docker compose exec app php bin/console doctrine:fixtures:load
+# Caso tenha NPM localmente, pode omitir a parte do Docker
+docker run --rm -itv $(pwd):/app -w /app node:23 npm install
+docker run --rm -itv $(pwd):/app -w /app node:23 npm run build
 ```
 
 Com isso, acesse http://localhost:8000/pt_BR/series para acessar a aplicação e http://localhost:8025 para acessar o _Mailpit_.
